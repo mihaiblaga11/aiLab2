@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class MazePoint {
     public static int[] movementX = {-1, 0, 1, 0};
     public static int[] movementY = {0, -1, 0, 1};
@@ -28,4 +30,10 @@ public class MazePoint {
     public static boolean isValid(int pointX, int pointY, MazePoint[][] maze) {
         return pointX >= 0 && pointX < maze.length && pointY >= 0 && pointY < maze.length && !maze[pointX][pointY].isWall();
     }
+
+    @Override
+    public String toString() {
+        return "(" + this.x + ", " + this.y + ")";
+    }
+
 }
