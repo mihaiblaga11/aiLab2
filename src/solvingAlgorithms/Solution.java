@@ -18,5 +18,5 @@ public abstract class Solution {
         this.endPoint = endPoint;
     }
 
-    abstract List<MazePoint> getSolution();
+    public abstract List<MazePoint> getSolution();
 }

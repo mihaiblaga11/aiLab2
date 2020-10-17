@@ -1,19 +1,34 @@
 import Model.CurrentState;
 import Model.MazePoint;
+import graphics.MazeGraphics;
+import graphics.MazePointGraphics;
+import graphics.MazeProblemGraphics;
+import graphics.ProblemInterface;
+import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Control;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import mazeGenerator.MazeGenerator;
 import solvingAlgorithms.DFSSolution;
 import solvingAlgorithms.HillClimbSolution;
+import solvingAlgorithms.Solution;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Problem {
+public class Problem extends Application implements ProblemInterface {
     private static MazePoint[][] maze;
     private static MazePoint firstPoint, lastPoint;
     private static final int dimensions = 10;
     private static CurrentState currentState;
 
     public static void main(String[] args) {
+
         maze = new MazePoint[dimensions][dimensions];
         MazeGenerator mazeGenerator = new MazeGenerator(dimensions);
         mazeGenerator.generateMaze();
@@ -23,14 +38,10 @@ public class Problem {
             for (int y = 0; y < rawMaze.length; y++)
                 maze[x][y] = new MazePoint(x, y, rawMaze[x][y] == 1);
 
+
         for (MazePoint[] mazeRow : maze)
             System.out.println(Arrays.toString(Arrays.stream(mazeRow).map(x -> x.isWall() ? 1 : 0).toArray()));
-
-        System.out.println("Start point:");
-        firstPoint = setPoint();
-        currentState = new CurrentState(firstPoint.getX(), firstPoint.getY());
-        System.out.println("Last point:");
-        lastPoint = setPoint();
+        launch(args);
 
         HillClimbSolution dfsSolution = new HillClimbSolution(maze, firstPoint, lastPoint);
         System.out.println(dfsSolution.getSolution());
@@ -47,5 +58,42 @@ public class Problem {
         }
         System.out.println("Point set!");
         return point;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        final int height = 500;
+        final int width = 500;
+        MazeProblemGraphics graphics = new MazeProblemGraphics(maze, width, height, this);
+        primaryStage.setHeight(height+38);
+        primaryStage.setWidth(width+210);
+        primaryStage.setScene(new Scene(graphics, width, height));
+        primaryStage.show();
+    }
+
+    @Override
+    public void setFirstPoint(int row, int col) {
+        firstPoint = maze[row][col];
+        currentState = new CurrentState(firstPoint.getX(), firstPoint.getY());
+    }
+
+    @Override
+    public void setLastPoint(int row, int col) {
+        lastPoint = maze[row][col];
+    }
+
+    @Override
+    public MazePoint getFirstPoint() {
+        return  firstPoint;
+    }
+
+    @Override
+    public MazePoint getSecondPoint() {
+        return  lastPoint;
+    }
+
+    @Override
+    public void solve(Solution solution) {
+        System.out.println(solution.getSolution());
     }
 }
