@@ -1,8 +1,8 @@
 import Model.CurrentState;
 import Model.MazePoint;
 import mazeGenerator.MazeGenerator;
-import solvingAlgorithms.BFSSolution;
 import solvingAlgorithms.DFSSolution;
+import solvingAlgorithms.HillClimbSolution;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -26,11 +26,13 @@ public class Problem {
         for (MazePoint[] mazeRow : maze)
             System.out.println(Arrays.toString(Arrays.stream(mazeRow).map(x -> x.isWall() ? 1 : 0).toArray()));
 
+        System.out.println("Start point:");
         firstPoint = setPoint();
         currentState = new CurrentState(firstPoint.getX(), firstPoint.getY());
+        System.out.println("Last point:");
         lastPoint = setPoint();
 
-        DFSSolution dfsSolution = new DFSSolution(maze, firstPoint, lastPoint);
+        HillClimbSolution dfsSolution = new HillClimbSolution(maze, firstPoint, lastPoint);
         System.out.println(dfsSolution.getSolution());
     }
 

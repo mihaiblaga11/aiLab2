@@ -28,13 +28,17 @@ public class DFSSolution extends Solution {
             return true;
         }
         for (int i = 0; i < dX.length; i++) {
-            MazePoint point = maze[currentPoint.getX() + dX[i]][currentPoint.getY() + dY[i]];
-            if (isValidPoint(point.getX(), point.getY(), visited)) {
-                visited[point.getX()][point.getY()] = true;
-                boolean found = findPath(point, visited);
-                if (found)
-                    return true;
-                path.remove(point);
+            int newPosX = currentPoint.getX() + dX[i];
+            int newPosY = currentPoint.getY() + dY[i];
+            if(newPosX >= 0 && newPosX < maze.length && newPosY >= 0 && newPosY < maze.length) {
+                MazePoint point = maze[newPosX][newPosY];
+                if (isValidPoint(point.getX(), point.getY(), visited)) {
+                    visited[point.getX()][point.getY()] = true;
+                    boolean found = findPath(point, visited);
+                    if (found)
+                        return true;
+                    path.remove(point);
+                }
             }
         }
 
