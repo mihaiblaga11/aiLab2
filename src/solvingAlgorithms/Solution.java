@@ -18,5 +18,9 @@ public abstract class Solution {
         this.endPoint = endPoint;
     }
 
-    abstract List<MazePoint> getSolution();
+    protected boolean isValidPoint(int x, int y, boolean[][] visited) {
+        return x > 0 && x < maze.length && y > 0 && y < maze.length && !maze[x][y].isWall() && !visited[x][y];
+    }
+
+    public abstract List<MazePoint> getSolution();
 }

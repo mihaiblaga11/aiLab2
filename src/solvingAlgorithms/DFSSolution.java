@@ -18,20 +18,23 @@ public class DFSSolution extends Solution {
 
     @Override
     public List<MazePoint> getSolution() {
-        boolean found = findPath(startPoint, visited);
+        boolean found = findPath(startPoint);
+        if (!found) {
+            return new ArrayList<>();
+        }
         return path;
     }
 
-    private boolean findPath(MazePoint currentPoint, boolean[][] visited) {
+    private boolean findPath(MazePoint currentPoint) {
         path.add(currentPoint);
         if (currentPoint == endPoint) {
             return true;
         }
         for (int i = 0; i < dX.length; i++) {
-            MazePoint point = maze[currentPoint.getX() + dX[i]][currentPoint.getY() + dY[i]];
-            if (isValidPoint(point.getX(), point.getY(), visited)) {
+            if (isValidPoint(currentPoint.getX() + dX[i], currentPoint.getY() + dY[i], visited)) {
+                MazePoint point = maze[currentPoint.getX() + dX[i]][currentPoint.getY() + dY[i]];
                 visited[point.getX()][point.getY()] = true;
-                boolean found = findPath(point, visited);
+                boolean found = findPath(point);
                 if (found)
                     return true;
                 path.remove(point);
@@ -39,9 +42,5 @@ public class DFSSolution extends Solution {
         }
 
         return false;
-    }
-
-    private boolean isValidPoint(int x, int y, boolean[][] visited) {
-        return x > 0 && x < maze.length && y > 0 && y < maze.length && !maze[x][y].isWall() && !visited[x][y];
     }
 }
