@@ -2,15 +2,16 @@ import Model.CurrentState;
 import Model.MazePoint;
 import mazeGenerator.MazeGenerator;
 import solvingAlgorithms.DFSSolution;
-import solvingAlgorithms.HillClimbSolution;
+import solvingAlgorithms.Solution;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Problem {
     private static MazePoint[][] maze;
     private static MazePoint firstPoint, lastPoint;
-    private static final int dimensions = 10;
+    private static final int dimensions = 6;
     private static CurrentState currentState;
 
     public static void main(String[] args) {
@@ -31,9 +32,18 @@ public class Problem {
         currentState = new CurrentState(firstPoint.getX(), firstPoint.getY());
         System.out.println("Last point:");
         lastPoint = setPoint();
+      
+        Solution solution = new DFSSolution(maze, firstPoint, lastPoint);
+        List<MazePoint> path = solution.getSolution();
 
-        HillClimbSolution dfsSolution = new HillClimbSolution(maze, firstPoint, lastPoint);
-        System.out.println(dfsSolution.getSolution());
+        if (path.isEmpty()) {
+            System.out.println("There is no possible solution!");
+        } else {
+            for (int i = 0; i < path.size() - 1; i++) {
+                System.out.print(path.get(i) + " -> ");
+            }
+            System.out.println(path.get(path.size() - 1));
+        }
     }
 
     public static MazePoint setPoint() {
