@@ -1,7 +1,6 @@
 import Model.CurrentState;
 import Model.MazePoint;
 import mazeGenerator.MazeGenerator;
-import solvingAlgorithms.BFSSolution;
 import solvingAlgorithms.DFSSolution;
 import solvingAlgorithms.Solution;
 
@@ -28,10 +27,12 @@ public class Problem {
         for (MazePoint[] mazeRow : maze)
             System.out.println(Arrays.toString(Arrays.stream(mazeRow).map(x -> x.isWall() ? 1 : 0).toArray()));
 
+        System.out.println("Start point:");
         firstPoint = setPoint();
         currentState = new CurrentState(firstPoint.getX(), firstPoint.getY());
+        System.out.println("Last point:");
         lastPoint = setPoint();
-
+      
         Solution solution = new DFSSolution(maze, firstPoint, lastPoint);
         List<MazePoint> path = solution.getSolution();
 
