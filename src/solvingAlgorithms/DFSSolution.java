@@ -18,34 +18,29 @@ public class DFSSolution extends Solution {
 
     @Override
     public List<MazePoint> getSolution() {
-        boolean found = findPath(startPoint, visited);
+        boolean found = findPath(startPoint);
+        if (!found) {
+            return new ArrayList<>();
+        }
         return path;
     }
 
-    private boolean findPath(MazePoint currentPoint, boolean[][] visited) {
+    private boolean findPath(MazePoint currentPoint) {
         path.add(currentPoint);
         if (currentPoint == endPoint) {
             return true;
         }
         for (int i = 0; i < dX.length; i++) {
-            int newPosX = currentPoint.getX() + dX[i];
-            int newPosY = currentPoint.getY() + dY[i];
-            if(newPosX >= 0 && newPosX < maze.length && newPosY >= 0 && newPosY < maze.length) {
-                MazePoint point = maze[newPosX][newPosY];
-                if (isValidPoint(point.getX(), point.getY(), visited)) {
-                    visited[point.getX()][point.getY()] = true;
-                    boolean found = findPath(point, visited);
-                    if (found)
-                        return true;
-                    path.remove(point);
-                }
+            if (isValidPoint(currentPoint.getX() + dX[i], currentPoint.getY() + dY[i], visited)) {
+                MazePoint point = maze[currentPoint.getX() + dX[i]][currentPoint.getY() + dY[i]];
+                visited[point.getX()][point.getY()] = true;
+                boolean found = findPath(point);
+                if (found)
+                    return true;
+                path.remove(point);
             }
         }
 
         return false;
-    }
-
-    private boolean isValidPoint(int x, int y, boolean[][] visited) {
-        return x > 0 && x < maze.length && y > 0 && y < maze.length && !maze[x][y].isWall() && !visited[x][y];
     }
 }

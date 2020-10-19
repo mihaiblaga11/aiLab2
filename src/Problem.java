@@ -11,17 +11,22 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import mazeGenerator.MazeGenerator;
+<<<<<<< HEAD
 import solvingAlgorithms.HillClimbSolution;
+=======
+import solvingAlgorithms.DFSSolution;
+>>>>>>> origin/master
 import solvingAlgorithms.Solution;
 
 import  java.util.List;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Problem extends Application implements ProblemInterface {
     private static MazePoint[][] maze;
     private static MazePoint firstPoint, lastPoint;
-    private static final int dimensions = 10;
+    private static final int dimensions = 6;
     private static CurrentState currentState;
     private static MazeProblemGraphics graphics;
     public static void main(String[] args) {
@@ -38,10 +43,31 @@ public class Problem extends Application implements ProblemInterface {
 
         for (MazePoint[] mazeRow : maze)
             System.out.println(Arrays.toString(Arrays.stream(mazeRow).map(x -> x.isWall() ? 1 : 0).toArray()));
+<<<<<<< HEAD
         launch(args);
 
         HillClimbSolution dfsSolution = new HillClimbSolution(maze, firstPoint, lastPoint);
         System.out.println(dfsSolution.getSolution());
+=======
+
+        System.out.println("Start point:");
+        firstPoint = setPoint();
+        currentState = new CurrentState(firstPoint.getX(), firstPoint.getY());
+        System.out.println("Last point:");
+        lastPoint = setPoint();
+      
+        Solution solution = new DFSSolution(maze, firstPoint, lastPoint);
+        List<MazePoint> path = solution.getSolution();
+
+        if (path.isEmpty()) {
+            System.out.println("There is no possible solution!");
+        } else {
+            for (int i = 0; i < path.size() - 1; i++) {
+                System.out.print(path.get(i) + " -> ");
+            }
+            System.out.println(path.get(path.size() - 1));
+        }
+>>>>>>> origin/master
     }
 
     public static MazePoint setPoint() {
