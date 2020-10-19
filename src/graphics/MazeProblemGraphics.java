@@ -8,10 +8,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import solvingAlgorithms.DFSSolution;
 import solvingAlgorithms.HillClimbSolution;
+import java.util.List;
 
 public class MazeProblemGraphics extends HBox {
+    private MazeGraphics mazeGraphics;
     public MazeProblemGraphics(MazePoint[][] maze, int width, int height, ProblemInterface problemInstance) {
-        MazeGraphics mazeGraphics = new MazeGraphics(maze, width, height, problemInstance);
+        mazeGraphics = new MazeGraphics(maze, width, height, problemInstance);
         Button DFSButton = new Button("DFS Solve");
         DFSButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -29,6 +31,9 @@ public class MazeProblemGraphics extends HBox {
         VBox buttonsBox = new VBox();
         buttonsBox.getChildren().addAll(DFSButton, HillclimbButton);
         getChildren().addAll(mazeGraphics, buttonsBox);
+    }
 
+    public void showPath(List<MazePoint> path) {
+        this.mazeGraphics.drawPath(path);
     }
 }

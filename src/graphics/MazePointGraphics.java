@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class MazePointGraphics extends Rectangle {
-    private boolean isImportantPoint;
+    public boolean isImportantPoint;
     public MazePointGraphics(double width, double height, boolean isWall, int row, int col, ProblemInterface problemInstance) {
         super(width, height);
         isImportantPoint = false;

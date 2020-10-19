@@ -9,15 +9,12 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import mazeGenerator.MazeGenerator;
-import solvingAlgorithms.DFSSolution;
 import solvingAlgorithms.HillClimbSolution;
 import solvingAlgorithms.Solution;
 
+import  java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -26,7 +23,7 @@ public class Problem extends Application implements ProblemInterface {
     private static MazePoint firstPoint, lastPoint;
     private static final int dimensions = 10;
     private static CurrentState currentState;
-
+    private static MazeProblemGraphics graphics;
     public static void main(String[] args) {
 
         maze = new MazePoint[dimensions][dimensions];
@@ -64,7 +61,7 @@ public class Problem extends Application implements ProblemInterface {
     public void start(Stage primaryStage) throws Exception {
         final int height = 500;
         final int width = 500;
-        MazeProblemGraphics graphics = new MazeProblemGraphics(maze, width, height, this);
+        graphics = new MazeProblemGraphics(maze, width, height, this);
         primaryStage.setHeight(height+38);
         primaryStage.setWidth(width+210);
         primaryStage.setScene(new Scene(graphics, width, height));
@@ -94,6 +91,8 @@ public class Problem extends Application implements ProblemInterface {
 
     @Override
     public void solve(Solution solution) {
-        System.out.println(solution.getSolution());
+        List<MazePoint> path = solution.getSolution();
+        System.out.println(path);
+        graphics.showPath(path);
     }
 }
