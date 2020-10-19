@@ -1,21 +1,15 @@
 package solvingAlgorithms;
-
 import Model.MazePoint;
-
 import java.util.ArrayList;
 import java.util.List;
-
-public class DFSSolution extends Solution {
-
+public class BacktrackingSolution extends Solution {
     private final List<MazePoint> path;
     private final boolean[][] visited;
-
-    public DFSSolution(MazePoint[][] maze, MazePoint startPoint, MazePoint endPoint) {
+    public BacktrackingSolution(MazePoint[][] maze, MazePoint startPoint, MazePoint endPoint) {
         super(maze, startPoint, endPoint);
         path = new ArrayList<>();
         visited = new boolean[maze.length][maze.length];
     }
-
     @Override
     public List<MazePoint> getSolution() {
         boolean found = findPath(startPoint);
@@ -24,7 +18,6 @@ public class DFSSolution extends Solution {
         }
         return path;
     }
-
     private boolean findPath(MazePoint currentPoint) {
         path.add(currentPoint);
         if (currentPoint == endPoint) {
@@ -40,7 +33,6 @@ public class DFSSolution extends Solution {
                 path.remove(point);
             }
         }
-
         return false;
     }
 }
